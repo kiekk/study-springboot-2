@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.BoardMapper">
+	<!-- 검색 쿼리 -->
+	<sql id="criteria">
+		<if test="type != null and keyword != null">
+			<trim prefix="(" suffix=") AND"	prefixOverrides="OR">
+				<foreach item="type" collection="typeArr">
+					<trim prefix="OR">
+						<choose>
+							<when test="type == 'T'.toString()">
+								(TITLE LIKE '%' || #{keyword} || '%')
+							</when>
+							<when test="type == 'C'.toString()">
+								(CONTENT LIKE '%' || #{keyword} || '%')
+							</when>
+							<when test="type == 'W'.toString()">
+								(WRITER LIKE '%' || #{keyword} || '%')
+							</when>
+						</choose>
+					</trim>
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+	<!-- 게시글 상세보기 -->
+	<select id="getBoard" resultType="com.example.domain.BoardVO">
+		<![CDATA[
+			SELECT * FROM TEST_BOARD WHERE BNO = #{bno}
+		]]>
+	</select>
+	
+	<!-- 전체 게시글 가져오기, 페이징 처리 -->
+	<select id="getListAll" resultType="com.example.domain.BoardVO">
+		<![CDATA[
+			SELECT BNO, TITLE, CONTENT, WRITER, REGDATE 
+			FROM
+				(SELECT /*+ INDEX_DESC(TEST_BOARD PK_TEST_BOARD */
+				ROWNUM RN, BNO, TITLE, CONTENT, WRITER, REGDATE
+				FROM TEST_BOARD
+				WHERE
+		]]>
+		<include refid="criteria"></include>
+		<![CDATA[
+			ROWNUM <= #{pageNum} * #{amount})
+		WHERE RN > (#{pageNum} - 1) * #{amount}
+		]]>	
+	</select>
+	
+	<!-- 전체 게시글 개수 -->
+	<select id="getTotal" resultType="_int">
+		<![CDATA[
+		SELECT COUNT(*) FROM TEST_BOARD 
+		WHERE
+		]]>
+		<include refid="criteria"></include>
+		<![CDATA[
+		BNO > 0
+		]]>
+	</select>
+	
+	<!-- 게시글 등록 -->
+	<insert id="insert">
+		INSERT INTO TEST_BOARD 
+		VALUES (TEST_GROUP_SEQ.NEXTVAL, 0, 1, TEST_BOARD_SEQ.NEXTVAL, #{title}, #{content}, #{writer}, SYSDATE)
+	</insert>
+	
+	<insert id="insertSelectKey_bno">
+		<selectKey keyProperty="bno" order="BEFORE" resultType="long">
+			SELECT TEST_BOARD_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TEST_BOARD 
+		VALUES (TEST_GROUP_SEQ.NEXTVAL, 0, 1, #{bno}, #{title}, #{content}, #{writer}, SYSDATE)
+	</insert>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="delete">
+		DELETE FROM TEST_BOARD WHERE BNO = #{bno}
+	</delete>
+	
+	<!-- 게시글 수정 -->
+	<update id="update">
+		UPDATE TEST_BOARD
+		SET TITLE = #{title}, CONTENT = #{content}
+		WHERE BNO = #{bno}
+	</update>
+</mapper>
