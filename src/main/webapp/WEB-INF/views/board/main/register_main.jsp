@@ -3,10 +3,14 @@
 <div style="width:80%; margin:0 auto;">
 	<h2>Write</h2>
 	<form method="post" action="/board/register" id="registerForm" enctype="multipart/form-data">
+		<input type="hidden" name="groupNo" value="${board.groupNo}" />
+		<input type="hidden" name="groupOrd" value="${board.groupOrd}" />
+		<input type="hidden" name="depth" value="${board.depth}" />
+		<input type="hidden" name="parentBno" value="${board.bno}" />
 		<div class="row gtr-uniform">
 			<h4 style="width:100%;">Title</h4>
 			<div class="col-6 col-12-small">
-				<input type="text" name="title" id="name" value="" placeholder="Title" />
+				<input type="text" name="title" id="title" value="" placeholder="Title" />
 			</div>
 			<h4 style="width:100%;">Content</h4>
 			<div class="col-12">

@@ -159,7 +159,7 @@
 					str += "<div class='reply_area reply_" + i + "'>";
 					str += "<li class='reply'>" + this.replyer +"</li>";
 					str += "<li class='replyer'><textarea class='" + this.rno + "'name='content' rows='2' readonly>" + this.reply + "</textarea></li>";
-					str += "<li class='replyDate'>" + this.replyDate;
+					str += "<li class='regDate'>" + this.regDate;
 					str += "<a href='"+ this.rno + "' class='remove'>삭제</a>";
 					str += "<a href='" + this.rno + "' class='modify'>수정</a>";
 					str += "<a href='" + list[i].rno + "' class='finish' style='display:none;'>수정 완료</a></li>";

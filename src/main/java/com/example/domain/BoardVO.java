@@ -1,14 +1,8 @@
 package com.example.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
+@Data
 public class BoardVO {
 	/* 그룹 번호 */
 	private int groupNo;
@@ -16,6 +10,8 @@ public class BoardVO {
 	private int groupOrd;
 	/* 깊이 */
 	private int depth;
+	/* 부모 게시글 번호 */
+	private Long parentBno;
 	/* 게시글 번호 */
 	private Long bno;
 	/* 게시글 제목 */

@@ -34,6 +34,7 @@
 					<a href="/board/modify${cri.makeQuery()}&bno=${board.bno}" class="button primary small write">Modify</a>
 					<input type="submit" class="button primary small write" value="삭제"/>
 					<a href="/board/list${cri.makeQuery()}" class="button small">목록</a>
+					<a href="/board/register${cri.makeQuery()}&groupNo=${board.groupNo}&depth=${board.depth}" class="button small">답글</a>
 				</ul>
 			</div>
 		</div>

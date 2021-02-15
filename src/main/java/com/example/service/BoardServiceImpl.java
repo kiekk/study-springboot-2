@@ -8,14 +8,20 @@ import org.springframework.stereotype.Service;
 import com.example.domain.BoardVO;
 import com.example.domain.Criteria;
 import com.example.mapper.BoardMapper;
+import com.example.mapper.ReplyMapper;
 
 import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 @Service
+@Log4j
 public class BoardServiceImpl implements BoardService {
 
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper b_mapper;
+	
+	@Setter(onMethod_ = @Autowired)
+	private ReplyMapper r_mapper;
 	
 	@Override
 	public List<BoardVO> getList(Criteria cri) {
@@ -39,11 +45,18 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void register(BoardVO board) {
+		log.info("board : " + board);
+		
+		//답글 쓰기일 경우 나머지 게시글 groupNo, depth 1씩 증가
+		if(board.getGroupNo() != 0) 
+			b_mapper.updateGroupNoAndDepth(board);
+		
 		b_mapper.insertSelectKey_bno(board);
 	}
 
 	@Override
 	public boolean remove(Long bno) {
+		r_mapper.deleteBoardReplys(bno);
 		return b_mapper.delete(bno) == 1 ? true : false;
 	}
 

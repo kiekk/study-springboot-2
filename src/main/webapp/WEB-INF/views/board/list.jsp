@@ -72,6 +72,25 @@
 				actionForm.attr("action", "/board/get");
 				actionForm.submit();
 			})
+			
+
+	$('.goRe').on(
+			"click",
+			function(e) {
+				e.preventDefault();
+				actionForm.append("<input type='hidden' name='bno' value='"
+						+ $(this).attr("href") + "'>");
+				actionForm.append("<input type='hidden' name='groupNo' value='"
+						+ $(this).data("groupno") + "'>");
+				actionForm.append("<input type='hidden' name='groupOrd' value='"
+						+ $(this).data("groupord") + "'>");
+				actionForm.append("<input type='hidden' name='parentBno' value='"
+						+ $(this).attr("href") + "'>");
+				actionForm.append("<input type='hidden' name='depth' value='"
+						+ $(this).data("depth") + "'>");
+				actionForm.attr("action", "/board/register");
+				actionForm.submit();
+			});
 
 	$('#searchForm a').on("click", function(e) {
 		e.preventDefault();

@@ -34,17 +34,20 @@
 	<!-- 전체 게시글 가져오기, 페이징 처리 -->
 	<select id="getListAll" resultType="com.example.domain.BoardVO">
 		<![CDATA[
-			SELECT BNO, TITLE, CONTENT, WRITER, REGDATE 
+			SELECT *
 			FROM
 				(SELECT /*+ INDEX_DESC(TEST_BOARD PK_TEST_BOARD */
-				ROWNUM RN, BNO, TITLE, CONTENT, WRITER, REGDATE
-				FROM TEST_BOARD
+				ROWNUM RN, GROUPNO, GROUPORD, DEPTH, BNO, TITLE, CONTENT, WRITER, REGDATE
+				FROM (
+						SELECT * FROM TEST_BOARD ORDER BY GROUPNO DESC, GROUPORD
+					)
 				WHERE
 		]]>
 		<include refid="criteria"></include>
 		<![CDATA[
-			ROWNUM <= #{pageNum} * #{amount})
-		WHERE RN > (#{pageNum} - 1) * #{amount}
+				ROWNUM <= #{pageNum} * #{amount}
+				ORDER BY GROUPNO DESC, GROUPORD)
+			WHERE RN > (#{pageNum} - 1) * #{amount}
 		]]>	
 	</select>
 	
@@ -70,19 +73,47 @@
 		<selectKey keyProperty="bno" order="BEFORE" resultType="long">
 			SELECT TEST_BOARD_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO TEST_BOARD 
-		VALUES (TEST_GROUP_SEQ.NEXTVAL, 0, 1, #{bno}, #{title}, #{content}, #{writer}, SYSDATE)
+		INSERT INTO TEST_BOARD (GROUPNO, GROUPORD, DEPTH, BNO, TITLE, CONTENT, WRITER, REGDATE, PARENTBNO)
+		<choose>
+			<when test="groupNo == 0">
+				VALUES (TEST_GROUP_SEQ.NEXTVAL, 0, 0, #{bno}, #{title}, #{content}, #{writer}, SYSDATE, 0)
+			</when>
+			<otherwise>
+				VALUES (#{groupNo}, #{groupOrd} + 1, #{depth} + 1, #{bno}, #{title}, #{content}, #{writer}, SYSDATE, #{parentBno})
+			</otherwise>
+		</choose>
 	</insert>
 	
 	<!-- 게시글 삭제 -->
 	<delete id="delete">
-		DELETE FROM TEST_BOARD WHERE BNO = #{bno}
+		DELETE FROM TEST_BOARD 
+		WHERE BNO IN (
+			SELECT BNO 
+			FROM TEST_BOARD 
+			START WITH BNO = #{bno}
+			CONNECT BY PRIOR BNO = PARENTBNO
+		)
 	</delete>
 	
 	<!-- 게시글 수정 -->
 	<update id="update">
 		UPDATE TEST_BOARD
 		SET TITLE = #{title}, CONTENT = #{content}
+		WHERE BNO = #{bno}
+	</update>
+	
+	<!-- 게시글 groupNo, depth 증가 -->
+	<update id="updateGroupNoAndDepth">
+		UPDATE TEST_BOARD
+		SET GROUPORD = GROUPORD + 1
+		WHERE GROUPNO = #{groupNo}
+		AND GROUPORD > #{groupOrd}
+	</update>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateReadcount">
+		UPDATE TEST_BOARD
+		SET READCOUNT = READCOUNT + 1
 		WHERE BNO = #{bno}
 	</update>
 </mapper>

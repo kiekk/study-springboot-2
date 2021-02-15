@@ -30,4 +30,10 @@ public interface BoardMapper {
 	
 	/* 게시글 수정 */
 	public int update(BoardVO board);
+	
+	/* 게시글 groupNo, depth 증가 */
+	public void updateGroupNoAndDepth(BoardVO board);
+	
+	/* 조회수 증가 */
+	public void updateReadcount(Long bno);
 }

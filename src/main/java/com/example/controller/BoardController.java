@@ -35,7 +35,7 @@ public class BoardController {
 	
 	//게시글 등록 페이지
 	@GetMapping("/register")
-	public void register(@ModelAttribute("cri") Criteria cri) {
+	public void register(@ModelAttribute("cri") Criteria cri, @ModelAttribute("board") BoardVO board) {
 		log.info("BoardController.register(GET)");
 	}
 	

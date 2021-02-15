@@ -16,7 +16,18 @@
 			<c:forEach var="board" items="${list}">
 				<tr>
 					<td class="bno">${board.bno}</td>
-					<td class="title"><a class="goGet" href="${board.bno}">${board.title}</a></td>
+					<td class="title">
+						<c:choose>
+							<c:when test="${board.depth == 0}">
+								<a class="goGet" href="${board.bno}">${board.title}</a>						
+							</c:when>
+							<c:otherwise>
+								<a class="goGet" href="${board.bno}" style="padding-left: ${board.depth * 15}px;">┗Re&nbsp;&nbsp;${board.title}</a>						
+							</c:otherwise>
+						</c:choose>
+						&nbsp;&nbsp;
+						<a class="goRe" href="${board.bno}" data-groupno="${board.groupNo}" data-groupord="${board.groupOrd}" data-depth="${board.depth}" style="font-size:8px; color:red;">[답글]</a>
+					</td>
 					<td class="writer">${board.writer}</td>
 					<td class="regDate">${board.regDate}</td>
 				</tr>

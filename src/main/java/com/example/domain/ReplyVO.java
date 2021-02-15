@@ -25,5 +25,5 @@ public class ReplyVO {
 	/* 댓글 작성자 */
 	private String replyer;
 	/* 댓글 작성일 */
-	private String replyDate;
+	private String regDate;
 }
