@@ -33,7 +33,6 @@ public class MapperTests {
 		Long bno = 1L;
 		log.info("------------------------------------");
 		//b_mapper.getAll().forEach(log::info);
-		log.info(b_mapper.getBoard(bno));
 		log.info("------------------------------------");
 	}
 	

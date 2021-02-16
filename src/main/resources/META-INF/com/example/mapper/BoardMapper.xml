@@ -122,16 +122,22 @@
 		WHERE BNO = #{bno}
 	</update>
 	
-	<!-- 좋아요 처리 -->
-	<insert id="insertLike">
-		INSERT INTO TEST_LIKE
+	<!-- 
+		좋아요 처리 
+		merge문을 사용해서 데이터가 있을 경우 delete
+		없을 경우 insert문 실행되어 toggle 기능 구현
+	-->
+	<update id="updateLike">
+		MERGE INTO TEST_LIKE 
+		USING DUAL
+		ON (BNO = #{bno} AND WRITER = #{writer})
+		WHEN MATCHED THEN
+		UPDATE SET CHECKLIKE = 1
+		DELETE WHERE WRITER = #{writer}
+		WHEN NOT MATCHED THEN
+		INSERT (BNO, WRITER)
 		VALUES (#{bno}, #{writer})
-	</insert>
-
-	<!-- 좋아요 취소 -->
-	<delete id="deleteLike">
-		DELETE FROM TEST_LIKE WHERE WRITER = #{writer}
-	</delete>
+	</update>
 	
 	<!-- 좋아요 개수 -->
 	<select id="getLikeCount" resultType="_int">

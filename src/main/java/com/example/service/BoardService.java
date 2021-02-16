@@ -31,9 +31,6 @@ public interface BoardService {
 	//좋아요 처리
 	public int updateLike(LikeVO like);
 	
-	//좋아요 취소
-	public int deleteLike(LikeVO like);
-	
 	//좋아요 개수
-	public int getLikeCount(LikeVO like);
+	public int getLikeCount(Long bno);
 }

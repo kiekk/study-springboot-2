@@ -40,7 +40,7 @@
 						<span class="material-icons" style="font-size: 26px; vertical-align: middle; margin-left: 10px;">
 							<c:choose>
 								<c:when test="${empty board.likeclick}">
-									favorite_border 
+									favorite_border
 								</c:when>
 								<c:otherwise>
 									favorite
@@ -88,6 +88,34 @@
 			
 		</div>
 	</form>
+	<h4 style="width:100%;">전체글</h4>
+	<table>
+		<tr>
+			<td>게시글</td>
+			<td>작성자</td>
+			<td>작성일</td>
+		</tr>
+		<tr>
+			<td>게시글</td>
+			<td>작성자</td>
+			<td>작성일</td>
+		</tr>
+		<tr>
+			<td>게시글</td>
+			<td>작성자</td>
+			<td>작성일</td>
+		</tr>
+		<tr>
+			<td>게시글</td>
+			<td>작성자</td>
+			<td>작성일</td>
+		</tr>
+		<tr>
+			<td>게시글</td>
+			<td>작성자</td>
+			<td>작성일</td>
+		</tr>
+	</table>
 	<form action="/board/fileDownload" id="fileForm">
 		<input type="hidden" name="fileName" value=""/>
 		<input type="hidden" name="filePath" value=""/>

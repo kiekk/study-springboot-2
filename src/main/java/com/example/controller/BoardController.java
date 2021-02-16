@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -82,20 +83,16 @@ public class BoardController {
 	
 	//게시글 좋아요 처리
 	@PostMapping("/board/like")
-	public ResponseEntity<Integer> updateLike(@RequestParam("bno") Long bno, @RequestParam("method") String method, HttpSession session){
+	public ResponseEntity<Integer> updateLike(@RequestParam("bno") Long bno, HttpSession session){
 		log.info("BoardController.updateLike(POST)");
 		String sessionId = (String) session.getAttribute("user");
 		log.info("SessionId : " + sessionId);
 		LikeVO like = new LikeVO();
-		like.setBno(bno);
-		like.setWriter(sessionId);
-		int result = 0;
-		if(method.equals("DELETE")) {
-			result = b_service.deleteLike(like);
-		}else {
-			result = b_service.updateLike(like);
-		}
-		return result == 1 ? new ResponseEntity<Integer>(b_service.getLikeCount(like), HttpStatus.OK) : 
+		like.setBno(bno);			//게시글 번호
+		like.setWriter(sessionId);	//세션 아이디
+		int result = b_service.updateLike(like);
+		
+		return result == 1 ? new ResponseEntity<Integer>(b_service.getLikeCount(bno), HttpStatus.OK) : 
 			new ResponseEntity<Integer>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	

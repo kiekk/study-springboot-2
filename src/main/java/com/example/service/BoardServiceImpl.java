@@ -67,18 +67,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public int deleteLike(LikeVO like) {
-		return b_mapper.deleteLike(like);
-	}
-	
-	@Override
 	public int updateLike(LikeVO like) {
-		return b_mapper.insertLike(like);
+		return b_mapper.updateLike(like);
 	}
 	
 	@Override
-	public int getLikeCount(LikeVO like) {
-		return b_mapper.getLikeCount(like);
+	public int getLikeCount(Long bno) {
+		return b_mapper.getLikeCount(bno);
 	}
 
 }

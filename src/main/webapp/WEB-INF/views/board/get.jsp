@@ -75,22 +75,16 @@
 		e.preventDefault();
 		
 		var bno =  $(this).attr("href");
-		var text = $('span.material-icons').text();
-		
+		var text = $('span.material-icons').text().trim();
 		if(text == 'favorite'){
-			console.log("true");
 			$('.material-icons').text('favorite_border');
-			method = "DELETE";
 		}else {
-			console.log("false");
 			$('.material-icons').text('favorite');
-			method = "POST";
 		}
 		
 		$.ajax({
 			url : "/board/like",
-			data : {bno : bno,
-					method : method},
+			data : {bno : bno},
 			dataType: 'json',
 			type : "POST",
 			success : function(data){
@@ -103,7 +97,6 @@
 	});
 	
 	$(document).ready(function(){
-		console.log("실행");
 		var bnoValue = "${board.bno}";
 		var replyUL = $('.replies');
 		var replyPageFooter = $('.big-width');
@@ -191,7 +184,7 @@
 				var i = 0;
 				$(list).each(function(){
 					str += "<div class='reply_area reply_" + this.rno + "' style='margin-left:" + (this.depth * 15) + "px'>";
-					str += "<li class='reply'>" + this.replyer +"</li>";
+					str += "<li class='reply'>" + this.replyer + "</li>";
 					str += "<li class='replyer'><textarea class='" + this.rno + "'name='content' rows='2' readonly>" + this.reply + "</textarea></li>";
 					str += "<li class='regDate'>" + this.regDate;
 					str += "<a href='" + this.rno + "' data-groupno='" + this.groupNo + "' data-groupord='" + this.groupOrd + "' data-depth='" + this.depth + "' class='re'>답글</a>";

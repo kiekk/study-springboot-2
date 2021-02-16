@@ -39,11 +39,8 @@ public interface BoardMapper {
 	public void updateReadcount(Long bno);
 	
 	/* 좋아요 처리 */
-	public int insertLike(LikeVO like);
-	
-	/* 좋아요 취소 */
-	public int deleteLike(LikeVO like);
+	public int updateLike(LikeVO like);
 	
 	/* 좋아요 개수 가져오기 */
-	public int getLikeCount(LikeVO like);
+	public int getLikeCount(Long bno);
 }
