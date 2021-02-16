@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.domain.BoardVO;
 import com.example.domain.Criteria;
+import com.example.domain.LikeVO;
 import com.example.mapper.BoardMapper;
 import com.example.mapper.ReplyMapper;
 
@@ -34,8 +35,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardVO get(Long bno) {
-		return b_mapper.getBoard(bno);
+	public BoardVO get(BoardVO board) {
+		return b_mapper.getBoard(board);
 	}
 
 	@Override
@@ -48,7 +49,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("board : " + board);
 		
 		//답글 쓰기일 경우 나머지 게시글 groupNo, depth 1씩 증가
-		if(board.getGroupNo() != 0) 
+		if(board.getGroupNo() > 0) 
 			b_mapper.updateGroupNoAndDepth(board);
 		
 		b_mapper.insertSelectKey_bno(board);
@@ -58,6 +59,26 @@ public class BoardServiceImpl implements BoardService {
 	public boolean remove(Long bno) {
 		r_mapper.deleteBoardReplys(bno);
 		return b_mapper.delete(bno) == 1 ? true : false;
+	}
+	
+	@Override
+	public void updateReadcount(Long bno) {
+		b_mapper.updateReadcount(bno);
+	}
+	
+	@Override
+	public int deleteLike(LikeVO like) {
+		return b_mapper.deleteLike(like);
+	}
+	
+	@Override
+	public int updateLike(LikeVO like) {
+		return b_mapper.insertLike(like);
+	}
+	
+	@Override
+	public int getLikeCount(LikeVO like) {
+		return b_mapper.getLikeCount(like);
 	}
 
 }

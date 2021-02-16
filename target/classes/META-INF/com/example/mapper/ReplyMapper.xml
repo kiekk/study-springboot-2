@@ -5,9 +5,19 @@
 	
 	<!-- 댓글 등록 -->
 	<insert id="insert">
+		<selectKey keyProperty="rno" order="BEFORE" resultType="long">
+			SELECT TEST_REPLY_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
 		INSERT INTO TEST_REPLY
-		VALUES (TEST_REPLY_GROUP_SEQ.NEXTVAL, 0, 1, #{bno}, TEST_REPLY_SEQ.NEXTVAL,
-		#{reply}, #{replyer}, SYSDATE)
+		<choose>
+			<when test="groupNo == 0">
+				VALUES (TEST_REPLY_GROUP_SEQ.NEXTVAL, 0, 0, #{bno}, #{rno},
+				#{reply}, #{replyer}, SYSDATE, 0)
+			</when>
+			<otherwise>
+				VALUES (#{groupNo}, #{groupOrd} + 1, #{depth} + 1, #{bno}, #{rno}, #{reply}, #{replyer}, SYSDATE, #{parentRno})
+			</otherwise>
+		</choose>
 	</insert>
 	
 	<!-- 댓글 총 개수 -->
@@ -31,6 +41,7 @@
 					FROM TEST_REPLY
 					WHERE BNO = #{bno}
 					AND RNO > 0 AND ROWNUM <= #{cri.pageNum} * #{cri.amount}
+					ORDER BY GROUPNO DESC, GROUPORD
 				)
 			WHERE RN > (#{cri.pageNum} - 1) * #{cri.amount}
 		]]>
@@ -44,9 +55,14 @@
 	</update>
 	
 	<!-- 댓글 삭제 -->
-	<delete id="deleteReply">
+	<delete id="deleteReply" parameterType="long">
 		DELETE FROM TEST_REPLY
-		WHERE RNO = #{rno}
+		WHERE RNO IN (
+			SELECT RNO
+			FROM TEST_REPLY
+			START WITH RNO = #{rno}
+			CONNECT BY PRIOR RNO = PARENTRNO
+		)
 	</delete>
 	
 	<!-- 게시글에 등록된 댓글 전체 삭제 -->
@@ -54,4 +70,12 @@
 		DELETE FROM TEST_REPLY
 		WHERE BNO = #{bno}
 	</delete>
+	
+	<!-- 대댓글 groupNo, depth 증가 -->
+	<update id="updateGroupNoAndDepth">
+		UPDATE TEST_REPLY
+		SET GROUPORD = GROUPORD + 1
+		WHERE GROUPNO = #{groupNo}
+		AND GROUPORD > #{groupOrd}
+	</update>
 </mapper>

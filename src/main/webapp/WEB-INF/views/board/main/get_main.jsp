@@ -25,6 +25,7 @@
 			<div class="col-6 col-12-small">
 				<input type="text" name="writer" id="name" value="${board.writer }" placeholder="Name" readonly/>
 			</div>
+			
 			<div style="width:100%;"></div>
 			<c:forEach var="file" items="${files}">
 				<a class="file" href="${file.filePath}">${file.fileName}</a>
@@ -35,6 +36,21 @@
 					<input type="submit" class="button primary small write" value="삭제"/>
 					<a href="/board/list${cri.makeQuery()}" class="button small">목록</a>
 					<a href="/board/register${cri.makeQuery()}&groupNo=${board.groupNo}&depth=${board.depth}" class="button small">답글</a>
+					<a href="${board.bno}" class="boardLike">
+						<span class="material-icons" style="font-size: 26px; vertical-align: middle; margin-left: 10px;">
+							<c:choose>
+								<c:when test="${empty board.likeclick}">
+									favorite_border 
+								</c:when>
+								<c:otherwise>
+									favorite
+								</c:otherwise>
+							</c:choose>
+						</span> 							
+						<span class="likeCount"> 
+							${board.likecount}
+						</span>
+					</a>
 				</ul>
 			</div>
 		</div>

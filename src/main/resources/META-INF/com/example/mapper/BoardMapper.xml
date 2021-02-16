@@ -27,26 +27,31 @@
 	<!-- 게시글 상세보기 -->
 	<select id="getBoard" resultType="com.example.domain.BoardVO">
 		<![CDATA[
-			SELECT * FROM TEST_BOARD WHERE BNO = #{bno}
+            SELECT TB.*, TL.LIKECOUNT, TLL.LIKECLICK FROM TEST_BOARD TB 
+			LEFT OUTER JOIN (SELECT BNO, COUNT(WRITER) AS LIKECOUNT FROM TEST_LIKE GROUP BY BNO) TL
+            ON TB.BNO = TL.BNO
+            LEFT OUTER JOIN (SELECT BNO, WRITER AS LIKECLICK FROM TEST_LIKE WHERE WRITER = #{writer}) TLL
+            ON TB.BNO = TLL.BNO
+            WHERE TB.BNO = #{bno}
 		]]>
 	</select>
 	
 	<!-- 전체 게시글 가져오기, 페이징 처리 -->
 	<select id="getListAll" resultType="com.example.domain.BoardVO">
 		<![CDATA[
-			SELECT *
+			SELECT TB.*, TL.LIKECOUNT
 			FROM
 				(SELECT /*+ INDEX_DESC(TEST_BOARD PK_TEST_BOARD */
-				ROWNUM RN, GROUPNO, GROUPORD, DEPTH, BNO, TITLE, CONTENT, WRITER, REGDATE
-				FROM (
-						SELECT * FROM TEST_BOARD ORDER BY GROUPNO DESC, GROUPORD
-					)
+				ROWNUM RN, GROUPNO, GROUPORD, DEPTH, BNO, TITLE, CONTENT, WRITER, REGDATE, READCOUNT
+				FROM TEST_BOARD
 				WHERE
 		]]>
 		<include refid="criteria"></include>
 		<![CDATA[
 				ROWNUM <= #{pageNum} * #{amount}
-				ORDER BY GROUPNO DESC, GROUPORD)
+				ORDER BY GROUPNO DESC, GROUPORD) TB
+                LEFT OUTER JOIN (SELECT BNO, COUNT(WRITER) AS LIKECOUNT FROM TEST_LIKE GROUP BY BNO) TL
+                ON TB.BNO = TL.BNO
 			WHERE RN > (#{pageNum} - 1) * #{amount}
 		]]>	
 	</select>
@@ -116,4 +121,20 @@
 		SET READCOUNT = READCOUNT + 1
 		WHERE BNO = #{bno}
 	</update>
+	
+	<!-- 좋아요 처리 -->
+	<insert id="insertLike">
+		INSERT INTO TEST_LIKE
+		VALUES (#{bno}, #{writer})
+	</insert>
+
+	<!-- 좋아요 취소 -->
+	<delete id="deleteLike">
+		DELETE FROM TEST_LIKE WHERE WRITER = #{writer}
+	</delete>
+	
+	<!-- 좋아요 개수 -->
+	<select id="getLikeCount" resultType="_int">
+		SELECT COUNT(WRITER) FROM TEST_LIKE WHERE BNO = #{bno}
+	</select>
 </mapper>

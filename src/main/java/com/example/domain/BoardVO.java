@@ -22,4 +22,10 @@ public class BoardVO {
 	private String writer;
 	/* 작성일 */
 	private String regDate;
+	/* 조회수 */
+	private int readcount;
+	/* 좋아요 개수 */
+	private int likecount;
+	/* 사용자의 좋아요 클릭 여부 */
+	private String likeclick;
 }

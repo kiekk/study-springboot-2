@@ -1,5 +1,9 @@
 package com.example.controller;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.domain.BoardVO;
 import com.example.domain.Criteria;
+import com.example.domain.LikeVO;
 import com.example.domain.PageDTO;
 import com.example.service.BoardService;
 
@@ -41,9 +46,13 @@ public class BoardController {
 	
 	//게시글 상세보기, 수정 페이지
 	@GetMapping({"/get", "/modify"})
-	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
+	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model, HttpSession session) {
 		log.info("BoardController.get(GET)");
-		model.addAttribute("board", b_service.get(bno));
+		String sessionId = (String) session.getAttribute("user");
+		BoardVO board = new BoardVO();
+		board.setBno(bno);
+		board.setWriter(sessionId);
+		model.addAttribute("board", b_service.get(board));
 	}
 	
 	//게시글 등록 처리
@@ -69,6 +78,25 @@ public class BoardController {
 		log.info("BoardController.remove(POST)");
 		rttr.addFlashAttribute("result", b_service.remove(bno) ? "success" : "fail");
 		return "redirect:/board/list" + cri.makeQuery();
+	}
+	
+	//게시글 좋아요 처리
+	@PostMapping("/board/like")
+	public ResponseEntity<Integer> updateLike(@RequestParam("bno") Long bno, @RequestParam("method") String method, HttpSession session){
+		log.info("BoardController.updateLike(POST)");
+		String sessionId = (String) session.getAttribute("user");
+		log.info("SessionId : " + sessionId);
+		LikeVO like = new LikeVO();
+		like.setBno(bno);
+		like.setWriter(sessionId);
+		int result = 0;
+		if(method.equals("DELETE")) {
+			result = b_service.deleteLike(like);
+		}else {
+			result = b_service.updateLike(like);
+		}
+		return result == 1 ? new ResponseEntity<Integer>(b_service.getLikeCount(like), HttpStatus.OK) : 
+			new ResponseEntity<Integer>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 }

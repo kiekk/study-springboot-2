@@ -18,6 +18,10 @@ public class ReplyServiceImpl implements ReplyService {
 	
 	@Override
 	public int register(ReplyVO reply) {
+		//대댓글일 경우
+		if(reply.getGroupNo() > 0)
+			r_mapper.updateGroupNoAndDepth(reply);
+		
 		return r_mapper.insert(reply);
 	}
 

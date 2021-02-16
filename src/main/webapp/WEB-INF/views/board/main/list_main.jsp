@@ -9,6 +9,7 @@
 				<th class="bno">번호</th>
 				<th class="title">제목</th>
 				<th class="writer">작성자</th>
+				<th class="readcount">조회수</th>				
 				<th class="regDate">작성일</th>
 			</tr>
 		</thead>
@@ -29,6 +30,7 @@
 						<a class="goRe" href="${board.bno}" data-groupno="${board.groupNo}" data-groupord="${board.groupOrd}" data-depth="${board.depth}" style="font-size:8px; color:red;">[답글]</a>
 					</td>
 					<td class="writer">${board.writer}</td>
+					<td class="readcount">${board.readcount}</td>
 					<td class="regDate">${board.regDate}</td>
 				</tr>
 			</c:forEach>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.domain.BoardVO;
 import com.example.domain.Criteria;
+import com.example.domain.LikeVO;
 
 public interface BoardMapper {
 	
@@ -13,7 +14,7 @@ public interface BoardMapper {
 	 */
 	
 	/* 게시글 상세보기 */
-	public BoardVO getBoard(Long bno);
+	public BoardVO getBoard(BoardVO board);
 	
 	/* 게시글 목록 가져오기 */
 	public List<BoardVO> getListAll(Criteria cri);
@@ -36,4 +37,13 @@ public interface BoardMapper {
 	
 	/* 조회수 증가 */
 	public void updateReadcount(Long bno);
+	
+	/* 좋아요 처리 */
+	public int insertLike(LikeVO like);
+	
+	/* 좋아요 취소 */
+	public int deleteLike(LikeVO like);
+	
+	/* 좋아요 개수 가져오기 */
+	public int getLikeCount(LikeVO like);
 }

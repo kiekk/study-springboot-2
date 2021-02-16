@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/resources/assets/css/main.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >
 
 <script src="/resources/assets/js/jquery.min.js"></script>
 <script src="/resources/assets/js/jquery.dropotron.min.js"></script>

@@ -7,6 +7,9 @@
 <title>상세보기 페이지</title>
 <link rel="stylesheet" href="/resources/assets/css/board.css" />
 </head>
+<%
+	session.setAttribute("user", "user11");
+%>
 <body>
 	<!-- Header -->
 	<%@ include file="../include/header.jsp" %>
@@ -65,6 +68,37 @@
 		function(result){
 			alert(result + "등록 완료");
 			location.reload();
+		});
+	});
+	
+	$('.boardLike').on("click", function(e){
+		e.preventDefault();
+		
+		var bno =  $(this).attr("href");
+		var text = $('span.material-icons').text();
+		
+		if(text == 'favorite'){
+			console.log("true");
+			$('.material-icons').text('favorite_border');
+			method = "DELETE";
+		}else {
+			console.log("false");
+			$('.material-icons').text('favorite');
+			method = "POST";
+		}
+		
+		$.ajax({
+			url : "/board/like",
+			data : {bno : bno,
+					method : method},
+			dataType: 'json',
+			type : "POST",
+			success : function(data){
+				$('.likeCount').text(data);
+			},
+			fail : function(){
+				alert("요청에 실패했습니다.\n잠시 후 다시 시도해주세요.");
+			}
 		});
 	});
 	
@@ -156,10 +190,11 @@
 				var str = "";
 				var i = 0;
 				$(list).each(function(){
-					str += "<div class='reply_area reply_" + i + "'>";
+					str += "<div class='reply_area reply_" + this.rno + "' style='margin-left:" + (this.depth * 15) + "px'>";
 					str += "<li class='reply'>" + this.replyer +"</li>";
 					str += "<li class='replyer'><textarea class='" + this.rno + "'name='content' rows='2' readonly>" + this.reply + "</textarea></li>";
 					str += "<li class='regDate'>" + this.regDate;
+					str += "<a href='" + this.rno + "' data-groupno='" + this.groupNo + "' data-groupord='" + this.groupOrd + "' data-depth='" + this.depth + "' class='re'>답글</a>";
 					str += "<a href='"+ this.rno + "' class='remove'>삭제</a>";
 					str += "<a href='" + this.rno + "' class='modify'>수정</a>";
 					str += "<a href='" + list[i].rno + "' class='finish' style='display:none;'>수정 완료</a></li>";
@@ -202,13 +237,63 @@
 							location.reload();
 						});
 				});
+				//답글버튼
+				$('.re').on("click", function(e){
+					e.preventDefault();
+					$(this).css('display', 'none');
+					var str = "";
+					var groupNo = $(this).data('groupno');
+					var groupOrd = $(this).data('groupord');
+					var depth =$(this).data('depth');
+					var rno =  $(this).attr('href');
+					str += "<form class='re_replyForm' onSubmit='return false;'>";
+					str += "<div class='reply_area'>";
+					str += "<li class='replyer'>${user}</li>";
+					str += "<li class='reply'><textarea name='reply' class='re_" + $(this).attr('href') + "' rows='2'></textarea></li>";
+					str += "<a href='" + rno + "' class='cancel'>취소</a>";
+					str += "&nbsp;&nbsp;";
+					str += "<a href='" + rno + "' class='re_add'>완료</a>";
+					str += "</form>";
+					
+					$('.reply_' + rno).after(str);
+					
+					
+					$('.re_add').on("click", function(e){
+						e.preventDefault();
+						
+						var rno = $(this).attr('href');
+						
+						replyService.add({
+							groupNo : groupNo,
+							groupOrd :groupOrd,
+							depth : depth,
+							rno : rno,
+							bno : '${board.bno}',
+							reply : $('.re_' + rno).val(),
+							replyer : '${user}',
+							parentRno : rno
+						},
+						function(result){
+							alert(result + "등록 완료");
+							location.reload();
+						});
+					});
+					
+					$('.cancel').on("click", function(e){
+						$('.re').css('display', 'inline-block');
+						e.preventDefault();
+						$('.re_replyForm').remove();
+					});
+					
+					
+				});
 				//삭제버튼
 				$('.remove').on("click",function(e){
 					e.preventDefault();
 					
-					var rnoValue = $(this).attr("href");
+					var rno = $(this).attr("href");
 					
-					replyService.remove(rnoValue, function(result){
+					replyService.remove(rno, function(result){
 						alert(result + "삭제 완료");
 						location.reload();
 					});

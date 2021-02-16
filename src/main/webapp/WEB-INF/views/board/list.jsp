@@ -7,6 +7,9 @@
 <title>list 페이지</title>
 <link rel="stylesheet" href="/resources/assets/css/board.css"/>
 </head>
+<%
+	session.setAttribute("user", "user11");
+%>
 <body>
 	<!-- Header -->
 	<%@ include file="../include/header.jsp" %>
@@ -97,6 +100,9 @@
 		searchCheck();
 	})
 
+	
+
+	
 	/* alert("${result}"); */
 	result = "${result}"
 	$(document).ready(function() {

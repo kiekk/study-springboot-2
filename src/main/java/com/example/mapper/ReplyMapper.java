@@ -28,4 +28,7 @@ public interface ReplyMapper {
 	
 	//댓글 전체 삭제
 	public int deleteBoardReplys(Long bno);
+	
+	//대댓글 groupOrd, depth 증가
+	public void updateGroupNoAndDepth(ReplyVO reply);
 }

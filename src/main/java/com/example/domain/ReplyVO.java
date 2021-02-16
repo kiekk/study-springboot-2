@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class ReplyVO {
 	/* 그룹 번호 */
 	private int groupNo;
@@ -26,4 +28,6 @@ public class ReplyVO {
 	private String replyer;
 	/* 댓글 작성일 */
 	private String regDate;
+	/* 부모댓글 */
+	private Long parentRno;
 }
