@@ -75,5 +75,14 @@ public class BoardServiceImpl implements BoardService {
 	public int getLikeCount(Long bno) {
 		return b_mapper.getLikeCount(bno);
 	}
-
+	
+	@Override
+	public BoardVO getNextBoard(Long bno) {
+		return b_mapper.getNextBoard(bno);
+	}
+	
+	@Override
+	public BoardVO getPrevBoard(Long bno) {
+		return b_mapper.getPrevBoard(bno);
+	}
 }

@@ -40,6 +40,17 @@
 	});
 </script>
 <script>
+
+	var actionForm = $('#actionForm');
+	
+	$('.goGet').on(
+		"click",
+		function(e) {
+			e.preventDefault();
+			actionForm.append("<input type='hidden' name='bno' value='"
+					+ $(this).attr("href") + "'>");
+			actionForm.submit();
+		});	
 	$('.register').on("click", function(e){
 		e.preventDefault();
 		

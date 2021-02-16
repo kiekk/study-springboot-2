@@ -54,6 +54,8 @@ public class BoardController {
 		board.setBno(bno);
 		board.setWriter(sessionId);
 		model.addAttribute("board", b_service.get(board));
+		model.addAttribute("prevBoard", b_service.getPrevBoard(bno));
+		model.addAttribute("nextBoard", b_service.getNextBoard(bno));
 	}
 	
 	//게시글 등록 처리

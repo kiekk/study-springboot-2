@@ -43,4 +43,11 @@ public interface BoardMapper {
 	
 	/* 좋아요 개수 가져오기 */
 	public int getLikeCount(Long bno);
+	
+	/* 이전 게시글 가져오기 */
+	public BoardVO getPrevBoard(Long bno);
+	
+	/* 다음 게시글 가져오기 */
+	public BoardVO getNextBoard(Long bno);
+	
 }

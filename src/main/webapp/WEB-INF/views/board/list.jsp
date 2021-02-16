@@ -74,7 +74,7 @@
 						+ $(this).attr("href") + "'>");
 				actionForm.attr("action", "/board/get");
 				actionForm.submit();
-			})
+			});
 			
 
 	$('.goRe').on(

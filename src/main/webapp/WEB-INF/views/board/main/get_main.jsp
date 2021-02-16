@@ -88,36 +88,33 @@
 			
 		</div>
 	</form>
-	<h4 style="width:100%;">전체글</h4>
-	<table>
-		<tr>
-			<td>게시글</td>
-			<td>작성자</td>
-			<td>작성일</td>
-		</tr>
-		<tr>
-			<td>게시글</td>
-			<td>작성자</td>
-			<td>작성일</td>
-		</tr>
-		<tr>
-			<td>게시글</td>
-			<td>작성자</td>
-			<td>작성일</td>
-		</tr>
-		<tr>
-			<td>게시글</td>
-			<td>작성자</td>
-			<td>작성일</td>
-		</tr>
-		<tr>
-			<td>게시글</td>
-			<td>작성자</td>
-			<td>작성일</td>
-		</tr>
-	</table>
+	<h4 style="width:100%;">다음글</h4>
+	<c:choose>
+		<c:when test="${empty nextBoard}">
+			<span>다음 게시글이 없습니다.</span>
+		</c:when>
+		<c:otherwise>
+			<a href="${nextBoard.bno}" class="goGet">${nextBoard.title}</a>
+		</c:otherwise>
+	</c:choose>
+	<h4 style="width:100%;">이전글</h4>	
+	<c:choose>
+		<c:when test="${empty prevBoard}">
+			<span>이전 게시글이 없습니다.</span>
+		</c:when>
+		<c:otherwise>
+			<a href="${prevBoard.bno}" class="goGet">${prevBoard.title}</a>
+		</c:otherwise>
+	</c:choose>
 	<form action="/board/fileDownload" id="fileForm">
 		<input type="hidden" name="fileName" value=""/>
 		<input type="hidden" name="filePath" value=""/>
+	</form>
+	
+	<form id="actionForm" action="/board/get" method="GET">
+		<input type="hidden" name="pageNum" value="${cri.pageNum}" />
+		<input type="hidden" name="amount" value="${cri.amount}" />
+		<input type="hidden" name="type" value="${cri.type}" />
+		<input type="hidden" name="keyword" value="${cri.keyword}" />
 	</form>
 </div>
