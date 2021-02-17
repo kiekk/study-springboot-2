@@ -6,8 +6,9 @@
 		<ul>
 			<li><a href="/">Home</a></li>
 			<li><a href="/board/list">BOARD</a></li>
-			<li><a href="#">LOGIN</a></li>
-			<li><a href="#">Elements</a></li>
+			<li><a href="/user/login">LOGIN</a></li>
+			<li><a href="/user/signup">SIGNUP</a></li>
+			<li><a href="/index/elements">Elements</a></li>
 		</ul>
 	</nav>
 </header>

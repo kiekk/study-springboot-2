@@ -27,4 +27,7 @@ public class HomeController {
 		return "index";
 	}
 	
+	@RequestMapping(value ="/index/elements")
+	public void elements() {};
+	
 }
