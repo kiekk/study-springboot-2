@@ -13,18 +13,18 @@ import lombok.Getter;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserVO {
-	/* ì•„ì´ë”” */
+	/* ¾ÆÀÌµğ */
 	private String id;
-	/* ë¹„ë°€ë²ˆí˜¸ */
+	/* ºñ¹Ğ¹øÈ£ */
 	private String password;
-	/* ì´ë¦„ */
+	/* ÀÌ¸§ */
 	private String name;
-	/* ì „í™”ë²ˆí˜¸ */
+	/* ÀüÈ­¹øÈ£ */
 	private String phone;
-	/* ì´ë©”ì¼ */
+	/* ÀÌ¸ŞÀÏ */
 	private String email;
-	/* ì£¼ì†Œ */
+	/* ÁÖ¼Ò */
 	private String address;
-	/* ìƒì„¸ ì£¼ì†Œ */
+	/* »ó¼¼ ÁÖ¼Ò */
 	private String address_detail;
 }

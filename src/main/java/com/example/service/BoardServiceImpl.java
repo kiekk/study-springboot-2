@@ -48,7 +48,7 @@ public class BoardServiceImpl implements BoardService {
 	public void register(BoardVO board) {
 		log.info("board : " + board);
 		
-		//답글 쓰기일 경우 나머지 게시글 groupNo, depth 1씩 증가
+		//답글 쓰기일 경우 나머지 게시글 groupOrd, depth 1씩 증가
 		if(board.getGroupNo() > 0) 
 			b_mapper.updateGroupNoAndDepth(board);
 		

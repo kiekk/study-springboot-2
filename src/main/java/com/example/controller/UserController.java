@@ -16,7 +16,7 @@ import lombok.extern.log4j.Log4j;
 public class UserController {
 
 	
-	/* 회원가입 페이지 */
+	/* 회원가입 페이지로 이동 */
 	@GetMapping("/signup")
 	public void signup() {
 		log.info("UserController.signup(POST)");
@@ -28,14 +28,14 @@ public class UserController {
 		log.info("UserController.signup(POST)");
 		log.info("UserVO : " + user);
 		
-		//회원가입 처리 로직
+		//회원 가입 로직
 		
 		
 		rttr.addFlashAttribute("result", "success");
 		return "redirect:/user/login";
 	}
 	
-	/* 로그인 페이지 */
+	/* 로그인 페이지로 이동 */
 	@GetMapping("/login")
 	public void login() {
 		log.info("UserController.login(GET)");
@@ -47,7 +47,7 @@ public class UserController {
 		log.info("UserController.login(POST)");
 		log.info("UserVO : " + user);
 		
-		//로그인 처리 로직
+		//로그인 로직
 		
 		rttr.addFlashAttribute("result", "success");
 		return "redirect:/board/list";
