@@ -39,25 +39,16 @@
 	<!-- 전체 게시글 가져오기, 페이징 처리 -->
 	<select id="getListAll" resultType="com.example.domain.BoardVO">
 		<![CDATA[
-        	SELECT * FROM (
-    			SELECT TB.*, TL.LIKECOUNT
-				FROM (
-					SELECT /*+ INDEX_DESC(TEST_BOARD PK_TEST_BOARD) */
-					ROW_NUMBER() OVER(ORDER BY GROUPNO DESC, GROUPORD) AS RN, 
-					GROUPNO, GROUPORD, DEPTH, BNO, TITLE, CONTENT, WRITER, REGDATE, READCOUNT
-					FROM TEST_BOARD
-				) TB
-				LEFT OUTER JOIN (
-					SELECT BNO, COUNT(WRITER) AS LIKECOUNT FROM TEST_LIKE GROUP BY BNO
-				) TL
-                ON TB.BNO = TL.BNO
-                WHERE
-		]]>	
-		<include refid="criteria"></include>
-		<![CDATA[
-			ROWNUM <= #{pageNum} * #{amount})
-			WHERE RN > (#{pageNum} - 1) * #{amount}
+			SELECT TB.* FROM (
+               SELECT /*+ INDEX_DESC(TEST_BOARD PK_TEST_BOARD) */
+			ROW_NUMBER() OVER(ORDER BY GROUPNO DESC, GROUPORD) AS RN, GROUPNO, GROUPORD, DEPTH, BNO, TITLE, CONTENT, WRITER, REGDATE, READCOUNT
+			FROM TEST_BOARD 
 		]]>
+		<include refid="criteria"></include>
+		<![CDATA[	
+			) TB
+            WHERE RN <= #{pageNum} * #{amount} AND RN > #{pageNum - 1} * #{amount}
+        ]]>
 	</select>
 	
 	<!-- 전체 게시글 개수 -->
