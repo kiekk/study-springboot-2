@@ -49,10 +49,10 @@ public class BoardController {
 	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model, HttpSession session) {
 		log.info("BoardController.get(GET)");
 		String sessionId = (String) session.getAttribute("user");
-		BoardVO board = new BoardVO();
-		board.setBno(bno);
-		board.setWriter(sessionId);
-		model.addAttribute("board", b_service.get(board));
+		LikeVO like = new LikeVO();
+		like.setBno(bno);
+		like.setWriter(sessionId); //좋아요 눌렀는지의 여부 확인용 아이디
+		model.addAttribute("board", b_service.get(like));
 		model.addAttribute("prevBoard", b_service.getPrevBoard(bno));
 		model.addAttribute("nextBoard", b_service.getNextBoard(bno));
 	}

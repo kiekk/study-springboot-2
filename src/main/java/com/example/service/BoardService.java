@@ -14,7 +14,7 @@ public interface BoardService {
 	public int getTotal(Criteria cri);
 	
 	//게시글 가져오기
-	public BoardVO get(BoardVO board);
+	public BoardVO get(LikeVO like);
 	
 	//게시글 수정
 	public boolean modify(BoardVO board);
