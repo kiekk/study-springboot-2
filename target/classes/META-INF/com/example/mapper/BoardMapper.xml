@@ -39,23 +39,16 @@
 	<!-- 전체 게시글 가져오기, 페이징 처리 -->
 	<select id="getListAll" resultType="com.example.domain.BoardVO">
 		<![CDATA[
-        SELECT * FROM (
-    			SELECT ROWNUM RN, TB.*, TL.LIKECOUNT
-			FROM
-				(SELECT /*+ INDEX_DESC(TEST_BOARD PK_TEST_BOARD) */
-				GROUPNO, GROUPORD, DEPTH, BNO, TITLE, CONTENT, WRITER, REGDATE, READCOUNT
-				FROM TEST_BOARD
-				ORDER BY GROUPNO DESC, GROUPORD) TB
-		
-				 LEFT OUTER JOIN (SELECT BNO, COUNT(WRITER) AS LIKECOUNT FROM TEST_LIKE GROUP BY BNO) TL
-                ON TB.BNO = TL.BNO
-                WHERE
-		]]>	
-		<include refid="criteria"></include>
-		<![CDATA[
-			ROWNUM <= #{pageNum} * #{amount})
-			WHERE RN > (#{pageNum} - 1) * #{amount}
+			SELECT TB.* FROM (
+               SELECT /*+ INDEX_DESC(TEST_BOARD PK_TEST_BOARD) */
+			ROW_NUMBER() OVER(ORDER BY GROUPNO DESC, GROUPORD) AS RN, GROUPNO, GROUPORD, DEPTH, BNO, TITLE, CONTENT, WRITER, REGDATE, READCOUNT
+			FROM TEST_BOARD 
 		]]>
+		<include refid="criteria"></include>
+		<![CDATA[	
+			) TB
+            WHERE RN <= #{pageNum} * #{amount} AND RN > #{pageNum - 1} * #{amount}
+        ]]>
 	</select>
 	
 	<!-- 전체 게시글 개수 -->
@@ -151,13 +144,10 @@
 	    SELECT * FROM TEST_BOARD
 	    WHERE BNO = (
 	    	SELECT PREV_BNO FROM (
-	    		SELECT BNO, LAG(TB.BNO) OVER(ORDER BY TB.BNO) AS PREV_BNO
-	    		FROM (
-	    			SELECT /*+ INDEX_DESC(TEST_BOARD PK_TEST_BOARD) */
-	    			GROUPNO, GROUPORD, BNO
-	    			FROM TEST_BOARD
-	    			ORDER BY GROUPNO DESC, GROUPORD
-	    		) TB
+    			SELECT /*+ INDEX_DESC(TEST_BOARD PK_TEST_BOARD) */
+    			GROUPNO, GROUPORD, BNO, LAG(BNO) OVER(ORDER BY BNO) AS PREV_BNO
+    			FROM TEST_BOARD
+    			ORDER BY GROUPNO DESC, GROUPORD
 	    	)
 	    	WHERE BNO = #{bno}
 	    )
@@ -168,13 +158,10 @@
 	    SELECT * FROM TEST_BOARD
 	    WHERE BNO = (
 	    	SELECT NEXT_BNO FROM (
-	    		SELECT BNO, LEAD(TB.BNO) OVER(ORDER BY TB.BNO) AS NEXT_BNO
-	    		FROM (
-	    			SELECT /*+ INDEX_DESC(TEST_BOARD PK_TEST_BOARD) */
-	    			GROUPNO, GROUPORD, BNO
-	    			FROM TEST_BOARD
-	    			ORDER BY GROUPNO DESC, GROUPORD
-	    		) TB
+    			SELECT /*+ INDEX_DESC(TEST_BOARD PK_TEST_BOARD) */
+    			GROUPNO, GROUPORD, BNO, LEAD(BNO) OVER(ORDER BY BNO) AS NEXT_BNO
+    			FROM TEST_BOARD
+    			ORDER BY GROUPNO DESC, GROUPORD
 	    	)
 	    	WHERE BNO = #{bno}
 	    )
