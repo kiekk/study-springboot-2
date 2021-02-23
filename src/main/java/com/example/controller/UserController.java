@@ -19,7 +19,7 @@ public class UserController {
 	/* 회원가입 페이지로 이동 */
 	@GetMapping("/signup")
 	public void signup() {
-		log.info("UserController.signup(POST)");
+		log.info("UserController.signup(GET)");
 	}
 	
 	/* 회원가입 처리 */
