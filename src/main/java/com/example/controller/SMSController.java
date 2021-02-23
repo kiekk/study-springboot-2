@@ -25,7 +25,7 @@ public class SMSController {
 	public ResponseEntity<String> checkSMS(@RequestBody String phone) {
 		log.info("SMSController.checkSMS(POST)");
 		log.info("phone : " + phone);
-		String key = s_service.checkSMS(phone.replaceAll("-", "").replaceAll("\"", ""));
+		String key = s_service.checkSMS(phone.replaceAll("-", ""));
 		
 		return new ResponseEntity<String>(key, HttpStatus.OK);
 	}

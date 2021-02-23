@@ -8,11 +8,6 @@ import com.example.domain.LikeVO;
 
 public interface BoardMapper {
 	
-	/*
-	 * 해야 할 거
-	 * 게시글 등록시 게시글 번호 가져온 후 등록하기
-	 */
-	
 	/* 게시글 상세보기 */
 	public BoardVO getBoard(LikeVO like);
 	
