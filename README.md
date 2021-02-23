@@ -45,3 +45,8 @@ day05
 1. 오타, 주석 한글 깨짐(인코딩) 수정
 2. 게시판 관련 쿼리 수정
 3. 게시판, 댓글 관련 쿼리 수정(ROWNUM 대신 ROW_NUMBER()사용)
+
+day06
+- 날짜 : 2021.02.19
+- 내용 : 
+1. 게시글 상세보기 Controller에서 BoardVO -> LikeVO 객체로 수정(mapper, service 수정 완료)

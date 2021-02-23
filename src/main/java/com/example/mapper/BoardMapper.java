@@ -14,7 +14,7 @@ public interface BoardMapper {
 	 */
 	
 	/* 게시글 상세보기 */
-	public BoardVO getBoard(BoardVO board);
+	public BoardVO getBoard(LikeVO like);
 	
 	/* 게시글 목록 가져오기 */
 	public List<BoardVO> getListAll(Criteria cri);
