@@ -28,7 +28,9 @@ public class UserVO {
 	/* 林家 */
 	private String address;
 	/* 惑技 林家 */
-	private String address_detail;
+	private String addressDetail;
 	/* 曼绊 亲格 */
-	private String address_etc;
+	private String addressEtc;
+	/* 鼻茄 */
+	private Role userRole;
 }

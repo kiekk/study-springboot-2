@@ -10,5 +10,5 @@ public interface UserMapper {
 	public int insert(UserVO user);
 	
 	//·Î±×ÀÎ
-	public int login(UserVO user);
+	public UserVO login(UserVO user);
 }

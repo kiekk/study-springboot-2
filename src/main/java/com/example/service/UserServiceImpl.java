@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 		return u_mapper.insert(user);	
 	}
 	@Override
-	public int login(UserVO user) {
+	public UserVO login(UserVO user) {
 		return u_mapper.login(user);
 	}
 }

@@ -11,5 +11,5 @@ public interface UserService {
 	public int register(UserVO user);
 	
 	//·Î±×ÀÎ
-	public int login(UserVO user);
+	public UserVO login(UserVO user);
 }

@@ -62,9 +62,11 @@ public class UserController {
 		log.info("UserController.login(POST)");
 		log.info("UserVO : " + user);
 		
+		UserVO login = u_service.login(user);
 		//로그인 로직
-		if(u_service.login(user) == 1) {
-			session.setAttribute("user", user.getId());
+		if(login != null) {
+			session.setAttribute("user", login);
+			rttr.addFlashAttribute("user", login);
 			rttr.addFlashAttribute("result", "success");
 			return "redirect:/board/list";			
 		}else {
