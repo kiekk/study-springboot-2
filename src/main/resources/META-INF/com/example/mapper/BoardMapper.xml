@@ -47,7 +47,7 @@
 		<include refid="criteria"></include>
 		<![CDATA[	
 			) TB
-            WHERE RN <= #{pageNum} * #{amount} AND RN > #{pageNum - 1} * #{amount}
+            WHERE RN <= #{pageNum} * #{amount} AND RN > (#{pageNum} - 1) * #{amount}
         ]]>
 	</select>
 	

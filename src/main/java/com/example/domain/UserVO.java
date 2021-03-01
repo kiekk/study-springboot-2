@@ -23,8 +23,14 @@ public class UserVO {
 	private String phone;
 	/* 이메일 */
 	private String email;
+	/* 우편 번호 */
+	private String zipcode;
 	/* 주소 */
 	private String address;
 	/* 상세 주소 */
-	private String address_detail;
+	private String addressDetail;
+	/* 참고 항목 */
+	private String addressEtc;
+	/* 권한 */
+	private Role userRole;
 }

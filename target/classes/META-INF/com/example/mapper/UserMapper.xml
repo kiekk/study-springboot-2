@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.UserMapper">
+	<!-- 중복 확인 -->
+	<select id="checkId" resultType="_int">
+		SELECT COUNT(*) FROM TEST_USER WHERE ID = #{id}
+	</select>
+	
+	<!-- 회원 가입 -->
+	<insert id="insert">
+		INSERT INTO TEST_USER
+		VALUES (#{id}, #{password}, #{name}, #{phone}, #{email}, #{zipcode}, #{address}, #{addressDetail}, #{addressEtc}, 'ROLE_MEMBER')
+	</insert>
+	
+	
+	<!-- 로그인 -->
+	<select id="login" resultType="com.example.domain.UserVO">
+		SELECT * FROM TEST_USER WHERE ID = #{id} AND PASSWORD = #{password}
+	</select>
+</mapper>
+
