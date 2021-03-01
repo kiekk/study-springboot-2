@@ -140,7 +140,7 @@
 	</select>
 	
 	<!-- 이전 게시글  -->
-	<select id="getPrevBoard" parameterType="long" resultType="com.example.domain.BoardVO">
+	<select id="getPrevBoard" resultType="com.example.domain.BoardVO">
 	    SELECT * FROM TEST_BOARD
 	    WHERE BNO = (
 	    	SELECT PREV_BNO FROM (
@@ -154,7 +154,7 @@
 	</select>
 	
 	<!-- 다음 게시글 -->
-	<select id="getNextBoard" parameterType="long" resultType="com.example.domain.BoardVO">
+	<select id="getNextBoard" resultType="com.example.domain.BoardVO">
 	    SELECT * FROM TEST_BOARD
 	    WHERE BNO = (
 	    	SELECT NEXT_BNO FROM (
