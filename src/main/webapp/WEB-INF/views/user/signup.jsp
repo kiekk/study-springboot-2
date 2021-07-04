@@ -59,11 +59,11 @@
 			</div>
 			<div class="col-12">
 				<div>상세주소</div>
-				<input type="text" id="address_detail" name="address_detail" class="postcodify_details" value="" /><br />
+				<input type="text" id="address_detail" name="addressDetail" class="postcodify_details" value="" /><br />
 			</div>
 			<div class="col-12">
 				<div>참고항목</div>
-				<input type="text" id="address_etc" name="address_etc" class="postcodify_extra_info" value="" readonly/><br />
+				<input type="text" id="address_etc" name="addressEtc" class="postcodify_extra_info" value="" readonly/><br />
 			</div>
 		</div>
 		<a href="/user/login">로그인 페이지로 이동</a>

@@ -2,6 +2,7 @@ package com.example.controller;
 
 import javax.servlet.http.HttpSession;
 
+import com.example.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,10 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.domain.BoardVO;
-import com.example.domain.Criteria;
-import com.example.domain.LikeVO;
-import com.example.domain.PageDTO;
 import com.example.service.BoardService;
 
 import lombok.AllArgsConstructor;
@@ -48,7 +45,7 @@ public class BoardController {
 	@GetMapping({"/get", "/modify"})
 	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model, HttpSession session) {
 		log.info("BoardController.get(GET)");
-		String sessionId = (String) session.getAttribute("user");
+		String sessionId = ((UserVO) session.getAttribute("user")).getId() ;
 		LikeVO like = new LikeVO();
 		like.setBno(bno);
 		like.setWriter(sessionId); //좋아요 눌렀는지의 여부 확인용 아이디
@@ -86,7 +83,7 @@ public class BoardController {
 	@PostMapping("/board/like")
 	public ResponseEntity<Integer> updateLike(@RequestParam("bno") Long bno, HttpSession session){
 		log.info("BoardController.updateLike(POST)");
-		String sessionId = (String) session.getAttribute("user");
+		String sessionId = ((UserVO) session.getAttribute("user")).getId() ;
 		log.info("SessionId : " + sessionId);
 		LikeVO like = new LikeVO();
 		like.setBno(bno);			//게시글 번호
