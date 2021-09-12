@@ -1,4 +1,4 @@
-# SpringBoot_2
+# study-springboot-2
 계층형 게시판, 댓글
 
 ## 소개
